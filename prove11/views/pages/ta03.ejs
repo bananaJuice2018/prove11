@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <% include ../includes/header.ejs %>
+  <link rel="stylesheet" href="/stylesheets/ta03.css">
+</head>
+
+<body>
+  <% include ../includes/nav.ejs %>
+  <div class="jumbotron text-center">
+    <div class="container">
+      <h1><%= title %></h1>
+    </div>
+  </div>
+  <div class="container">
+    <div class="top">
+      <h2>Product Listing</h2>
+      <form id="form" action="/insert" method="post" class="submit">
+        <input name="name" type="text" />
+        <input type="submit" />
+      </form>
+    </div>
+
+    <!-- <div class="top-section">
+      <div action="/search" class="pagination-view">
+        <a href="/first" class="page-button">First</a>
+        <a href="/prev" class="page-button">Prev</a>
+        <div class="page-label"><%= page %> / <%= lastPage %></div>
+        <a href="/next" class="page-button">Next</a>
+        <a href="/last" class="page-button-last">Last</a>
+      </div>
+    </div> -->
+
+    <div class="product-container">
+      <% for (product of products) { %>
+      <div class="product">
+        <div>
+          <h4><%= product.name %></h4>
+          <!-- <div class="product-image">
+            <img src="<%= product.imageUrl %>" alt="<%= product.name %>">
+          </div> -->
+        </div>
+      </div>
+      <% } %>
+    </div>
+
+    <% if (products.length == 0) { %>
+      <h2>No Products Found!</h2>
+    <% } %>
+  </div>
+
+
+  <script src="https://name-list-socket.herokuapp.com/socket.io/socket.io.js"></script>
+  <script>
+      console.log("SOCKET CONNECTING....");
+      var socket = io();
+
+      socket.on('new name', function(msg) {
+        console.log("New Name", msg);
+        location.reload();
+      });
+  </script>
+
+</body>
+
+</html>
